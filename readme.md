@@ -3,7 +3,7 @@
 ## Quick start
 
 Assume we want the following format:
-```
+```xml
 //xml1
 <bakery name='Janes'>
 <cake name='New York Cheese'>
@@ -38,7 +38,7 @@ struct bakery
 
 ### how to do it in tinyxmlbind?
 define the following schema, heavily sweetened with C macros:
-```
+```C
 STRUCT(fruit)
 {
 	ATTR( string, name);
@@ -57,14 +57,14 @@ STRUCT(bakery)
 };
 ```
 parse by:
-```
+```C
 TiXmlDocument DOC;
 DOC.Parse( xml1);
 bakery bake;
 TXB_fromxmldoc(&bake, &DOC);
 ```
 then we can access the data by:
-```
+```C
 cout << "The name of the bakery is " << bake.name << endl;
 cout << "There are " << bake.cakes.size() << " cakes" << endl;
 cout << "The first one is " << bake.cakes[0].name << ", ";
@@ -125,7 +125,7 @@ that means, if you have pointer members in a struct, it is up to you to implemen
 
 ## advanced features
 inheritance also works!
-```
+```C
 STRUCT_INHERIT(A,B)     |     struct A : B
 ```
 
