@@ -1,4 +1,3 @@
-#define USE_TINY_XML_BIND
 #include "../tinyxmlbind.h"
 
 const char* xml1=
