@@ -18,6 +18,14 @@ STRUCT(baseobject)
 	ATTR(string, id);
 	ATTR(int, width);
 	ATTR(int, height);
+
+	#ifdef TXB_FIRST_PASS
+public:
+	baseobject()
+	{
+		width=0; height=0;
+	}
+	#endif
 };
 
 STRUCT_INHERIT(linearGradient, baseobject)

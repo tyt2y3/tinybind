@@ -18,6 +18,10 @@
 	#define strnicmp strncasecmp 
 #endif
 
+#define TXB_fromxmldoc(X,Y) TXB_binding( X, TiXmlHandle(Y).FirstChild().ToElement(), 1)
+#define TXB_fromxml(X,Y) TXB_binding( X, Y, 1)
+#define TXB_toxml(X,Y) TXB_binding( X, Y, 0)
+
 void TXB_attr_bind( TiXmlElement* xmle, bool from, bool* attr_content, const char* attr_name)
 {
 	if ( from) //from xml

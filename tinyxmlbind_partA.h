@@ -1,3 +1,4 @@
+#define TXB_FIRST_PASS
 #define STRUCT(TYPE) struct TYPE
 #define STRUCT_INHERIT(TYPE, ...) struct TYPE : __VA_ARGS__
 #define ATTR(X,Y) X Y

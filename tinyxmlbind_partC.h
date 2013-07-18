@@ -1,3 +1,4 @@
+#undef TXB_SECOND_PASS
 #undef STRUCT
 #undef STRUCT_INHERIT
 #undef ATTR
