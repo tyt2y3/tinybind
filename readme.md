@@ -16,7 +16,7 @@ Assume we want the following format:
 </bakery>
 ```
 and we want to deserialize and bind to follow:
-```
+```C
 struct fruit
 {
 	string name;
@@ -81,9 +81,9 @@ The second one is white forest, which has 2 toppings, including blue berries and
 ```
 that's it. neat and simple.
 
-## Auto schema generation
+## auto schema generation
 if you dont mind the `STRUCT(bakery)` syntax, the struct definitions can be automatically derived from the schema, using C macro tricks:
-```
+```C
 #include "../tinyxmlbind_partA.h"
 #include "2_svg.h" //the first pass, defining structs
 #include "../tinyxmlbind_partB.h"
@@ -93,7 +93,7 @@ if you dont mind the `STRUCT(bakery)` syntax, the struct definitions can be auto
 
 ## under the hood
 what the 'schema' is doing is actually defining functions:
-```
+```C
 STRUCT(bakery)                |   bool TXB_binding( bakery* str, TiXmlElement* xmle, bool m)
 {                             |   {
 	ATTR( string, name);      |        TXB_attr_bind( xmle, m, &str->name, "name");
@@ -103,7 +103,7 @@ STRUCT(bakery)                |   bool TXB_binding( bakery* str, TiXmlElement* x
 the overloaded `TXB_binding` functions handles binding of objects.
 
 each `TXB_attr_bind` handles binding for attributes. for example, the integer binder:
-```
+```C
 void TXB_attr_bind( TiXmlElement* xmle, bool from, int* attr_content, const char* attr_name)
 {
 	if ( from) //from xml
