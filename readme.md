@@ -1,4 +1,4 @@
-# tinyxmlbind - the neat and sexy xml binding and serialization scheme for C++
+# tinyxmlbind - the neat and nearly unobstructive xml binding and serialization scheme for C++
 
 ## Quick start
 
@@ -127,6 +127,41 @@ that means, if you have pointer members in a struct, it is up to you to implemen
 inheritance also works!
 ```C
 STRUCT_INHERIT(A,B)     |     struct A : B
+```
+
+## what others do
+do you seriously want this?
+```C
+struct svg_base
+{
+	const char*	id;
+	const char*	style;
+};
+TiXmlBinding<svg_base> const *
+GetTiXmlBinding( svg_base const &, Identity<svg_base> )
+{
+	static MemberTiXmlBinding<svg_base> binding;
+	if( binding.empty() ) {
+		binding.AddMember( "id",	MemberAttribute(	&svg_base::id ))	->setFlags(MemberOptional);
+		binding.AddMember( "style",	MemberAttribute(	&svg_base::style) )	->setFlags(MemberOptional);
+	}
+	return &binding;
+}
+```
+Protocal buffer is better, but the binding is still obstructive and you need a separate compiler. (okay you win, performance is more important!)
+```C
+message Person
+{
+  required string name = 1;
+  required int32 id = 2;
+  optional string email = 3;
+}
+Person person;
+person.set_name("John Doe");
+person.set_id(1234);
+person.set_email("jdoe@example.com");
+fstream output("myfile", ios::out | ios::binary);
+person.SerializeToOstream(&output);
 ```
 
 ## lessons learned

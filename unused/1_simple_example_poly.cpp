@@ -1,4 +1,5 @@
-#include "../tinybind.h"
+#define USE_TINY_XML_BIND
+#include "tinyxmlbind_poly.h"
 
 const char* xml1=
 "<bakery name='Janes'>"
@@ -17,42 +18,44 @@ const char* xml1=
 #include <iostream>
 using namespace std;
 
-#include "../tinybind_partA.h"
-struct fruit
+struct fruit : TXB
 {
 	string name;
 	string text;
 	int quantity;
+
+	TXB_BIND("fruit")
+	{
+		TXB_ATTR(name);
+		TXB_TEXT(text);
+		TXB_ATTR(quantity);
+	}
 };
-struct cake
+
+struct cake : TXB
 {
 	string name;
 	vector<fruit> fruits;
+	
+	TXB_BIND("cake")
+	{
+		TXB_ATTR(name);
+		TXB_CHILD(fruits,fruit);
+	}
 };
-struct bakery
+
+struct bakery : TXB
 {
 	string name;
 	vector<cake> cakes;
 	int unbinded;
+
+	TXB_BIND("bakery")
+	{
+		TXB_ATTR(name);
+		TXB_CHILD(cakes,cake);
+	}
 };
-#include "../tinybind_partB.h"
-STRUCT(fruit)
-{
-	ATTR( string, name);
-	TEXT( string, text);
-	ATTR( int, quantity);
-};
-STRUCT(cake)
-{
-	ATTR( string, name);
-	CHILD( fruit, fruits);
-};
-STRUCT(bakery)
-{
-	ATTR( string, name);
-	CHILD( cake, cakes);
-};
-#include "../tinybind_partC.h"
 
 int main()
 {
@@ -60,10 +63,10 @@ int main()
 	DOC.Parse( xml1);
 
 	bakery bake;
-	TXB_fromxmldoc(&bake, &DOC);
+	bake.TXB_fromxmldoc(&DOC);
 
 	TiXmlElement XBAKE("bakery");
-	TXB_toxml(&bake, &XBAKE);
+	bake.TXB_toxml( &XBAKE);
 	XBAKE.Print( stdout, 0);
 
 	cout << endl;

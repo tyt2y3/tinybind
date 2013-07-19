@@ -1,4 +1,4 @@
-#include "../tinyxmlbind.h"
+#include "../tinybind.h"
 
 const char* xml1=
 "<svg version='1.1' baseProfile='full' xmlns='http://www.w3.org/2000/svg'"
@@ -18,11 +18,11 @@ const char* xml1=
 #include <stdio.h>
 using namespace std;
 
-#include "../tinyxmlbind_partA.h"
+#include "../tinybind_partA.h"
 #include "2_svg.h"
-#include "../tinyxmlbind_partB.h"
+#include "../tinybind_partB.h"
 #include "2_svg.h"
-#include "../tinyxmlbind_partC.h"
+#include "../tinybind_partC.h"
 
 int main()
 {
