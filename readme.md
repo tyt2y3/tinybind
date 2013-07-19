@@ -1,4 +1,4 @@
-# tinyxmlbind - the neat and nearly unobstructive xml binding and serialization scheme for C++
+# tinybind - the neat and nearly unobstructive xml binding and serialization scheme for C++
 
 ## Quick start
 
@@ -36,7 +36,7 @@ struct bakery
 };
 ```
 
-### how to do it in tinyxmlbind?
+### how to do it in tinybind?
 define the following schema, heavily sweetened with C macros:
 ```C
 STRUCT(fruit)
@@ -84,11 +84,11 @@ that's it. neat and simple.
 ## auto schema generation
 if you dont mind the `STRUCT(bakery)` syntax, the struct definitions can be automatically derived from the schema, using C macro tricks:
 ```C
-#include "../tinyxmlbind_partA.h"
+#include "../tinybind_partA.h"
 #include "2_svg.h" //the first pass, defining structs
-#include "../tinyxmlbind_partB.h"
+#include "../tinybind_partB.h"
 #include "2_svg.h" //the second pass, defining schema
-#include "../tinyxmlbind_partC.h"
+#include "../tinybind_partC.h"
 ```
 
 ## under the hood
@@ -168,10 +168,10 @@ person.SerializeToOstream(&output);
 - using stl `string` and `vector` can make your data structure neat, without the hassle of managing memory manually and keeping a `length` member
 - C macros are dirty and powerful
 - tinyxml rocks
-- tinyxmlbind gives you the closest thing to 'native' data binding without a code generator
+- tinybind gives you the closest thing to 'native' data binding without a code generator
 
 ## Credit
-- tinyxmlbind
+- tinybind
 	- Chris Tsang
 - TinyXML
 	- Lee Thomason, Yves Berquin, Andrew Ellerton 
