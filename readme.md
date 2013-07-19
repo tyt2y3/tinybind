@@ -1,21 +1,7 @@
-# tinybind - the neat and nearly unobstructive xml binding and serialization scheme for C++
+# tinybind - the neat and nearly unobstructive XML and JSON binding and serialization scheme for C++
 
 ## Quick start
-
-Assume we want the following format:
-```xml
-//xml1
-<bakery name='Janes'>
-<cake name='New York Cheese'>
-	<fruit name='blue berries' quantity='25'>freshness topping</fruit>
-</cake>
-<cake name='white forest'>
-	<fruit name='blue berries' quantity='10' illegal='attribute'></fruit>
-	<fruit name='strawberries' quantity='8'></fruit>
-</cake>
-</bakery>
-```
-and we want to deserialize and bind to follow:
+Assume we have the following data structures:
 ```C
 struct fruit
 {
@@ -35,6 +21,46 @@ struct bakery
 	int unbinded;
 };
 ```
+And we want the following formats:
+```xml
+//xml1
+<bakery name='Janes'>
+<cake name='New York Cheese'>
+	<fruit name='blue berries' quantity='25'>freshness topping</fruit>
+</cake>
+<cake name='white forest'>
+	<fruit name='blue berries' quantity='10' illegal='attribute'></fruit>
+	<fruit name='strawberries' quantity='8'></fruit>
+</cake>
+</bakery>
+```
+
+```json
+{
+	"bakery":	{
+		"name":	"Janes",
+		"cake":	[{
+				"name":	"New York Cheese",
+				"fruit":	[{
+						"name":	"blue berries",
+						"text":	"freshness topping",
+						"quantity":	25
+					}]
+			}, {
+				"name":	"white forest",
+				"fruit":	[{
+						"name":	"blue berries",
+						"quantity":	10
+					}, {
+						"name":	"strawberries",
+						"quantity":	8
+					}]
+			}]
+	}
+}
+```
+## Yes, you get both of XML and JSON
+yeep! you can work with both formats transparently with minimal configuration, or convert from XML to JSON or other way around.
 
 ### how to do it in tinybind?
 define the following schema, heavily sweetened with C macros:
@@ -58,10 +84,14 @@ STRUCT(bakery)
 ```
 parse by:
 ```C
+bakery bake;
+
 TiXmlDocument DOC;
 DOC.Parse( xml1);
-bakery bake;
 TXB_fromxmldoc(&bake, &DOC);
+//or
+cJSON* json=cJSON_Parse(json1);
+TXB_fromjson( &bake, json->child);
 ```
 then we can access the data by:
 ```C
@@ -83,12 +113,14 @@ that's it. neat and simple.
 
 ## auto schema generation
 if you dont mind the `STRUCT(bakery)` syntax, the struct definitions can be automatically derived from the schema, using C macro tricks:
-```C
-#include "../tinybind_partA.h"
-#include "2_svg.h" //the first pass, defining structs
-#include "../tinybind_partB.h"
-#include "2_svg.h" //the second pass, defining schema
-#include "../tinybind_partC.h"
+```
+#include "../tinybind_struct.h"
+#include "2_svg.h"
+#include "../tinybind_xml.h"
+#include "2_svg.h"
+#include "../tinybind_json.h"
+#include "2_svg.h"
+#include "../tinybind_clean.h"
 ```
 
 ## under the hood
@@ -168,6 +200,7 @@ person.SerializeToOstream(&output);
 - using stl `string` and `vector` can make your data structure neat, without the hassle of managing memory manually and keeping a `length` member
 - C macros are dirty and powerful
 - tinyxml rocks
+- json rocks
 - tinybind gives you the closest thing to 'native' data binding without a code generator
 
 ## Credit
@@ -175,8 +208,36 @@ person.SerializeToOstream(&output);
 	- Chris Tsang
 - TinyXML
 	- Lee Thomason, Yves Berquin, Andrew Ellerton 
+- cJSON
+	- Dave Gamble
 
 ## License
+
+### tinybind
+
+The MIT License (MIT)
+
+Copyright 2013 Chris Tsang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+### TinyXML
 
 TinyXML is released under the zlib license:
 
@@ -189,3 +250,23 @@ Permission is granted to anyone to use this software for any purpose, including 
 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
 
 3. This notice may not be removed or altered from any source distribution.
+
+### cJSON
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

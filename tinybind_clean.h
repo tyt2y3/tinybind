@@ -1,4 +1,6 @@
-#undef TXB_SECOND_PASS
+#undef TXB_PASS_STRUCT
+#undef TXB_PASS_XML
+#undef TXB_PASS_JSON
 #undef STRUCT
 #undef STRUCT_INHERIT
 #undef ATTR

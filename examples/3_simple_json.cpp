@@ -1,15 +1,5 @@
 #include "../tinybind.h"
-
-const char* xml1=
-"<bakery name='Janes'>"
-"<cake name='New York Cheese'>"
-"	<fruit name='blue berries' quantity='25'>freshness topping</fruit>"
-"</cake>"
-"<cake name='white forest'>"
-"	<fruit name='blue berries' quantity='10' illegal='attribute'></fruit>"
-"	<fruit name='strawberries' quantity='8'></fruit>"
-"</cake>"
-"</bakery>";
+//compile by g++ ../tinybind.cpp 3_simple_json.cpp -o 3_simple_json
 
 #include <string>
 #include <vector>
@@ -17,7 +7,7 @@ const char* xml1=
 #include <iostream>
 using namespace std;
 
-#include "../tinybind_partA.h"
+#include "../tinybind_struct.h"
 struct fruit
 {
 	string name;
@@ -35,7 +25,7 @@ struct bakery
 	vector<cake> cakes;
 	int unbinded;
 };
-#include "../tinybind_partB.h"
+#include "../tinybind_json.h"
 STRUCT(fruit)
 {
 	ATTR( string, name);
@@ -52,19 +42,21 @@ STRUCT(bakery)
 	ATTR( string, name);
 	CHILD( cake, cakes);
 };
-#include "../tinybind_partC.h"
+#include "../tinybind_clean.h"
 
 int main()
 {
-	TiXmlDocument DOC;
-	DOC.Parse( xml1);
+	cJSON* json=cJSON_FromFile("3_sample.json");
 
 	bakery bake;
-	TXB_fromxmldoc(&bake, &DOC);
+	TXB_fromjson( &bake, json->child);
 
-	TiXmlElement XBAKE("bakery");
-	TXB_toxml(&bake, &XBAKE);
-	XBAKE.Print( stdout, 0);
+	cJSON* out = cJSON_CreateObject();
+	TXB_tojson( &bake, cJSON_CreateNode(out,"bakery"));
+	cJSON_Print( out, stdout);
+
+	cJSON_Delete(json);
+	cJSON_Delete(out);
 
 	cout << endl;
 	cout << "The name of the bakery is " << bake.name << endl;

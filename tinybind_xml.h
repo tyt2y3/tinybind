@@ -1,4 +1,4 @@
-#undef TXB_FIRST_PASS
+#undef TXB_PASS_STRUCT
 #undef STRUCT
 #undef STRUCT_INHERIT
 #undef ATTR
@@ -8,7 +8,7 @@
 #undef CHILD
 #undef INHERIT
 
-#define TXB_SECOND_PASS
+#define TXB_PASS_XML
 #define STRUCT(TYPE) bool TXB_binding( TYPE* str, TiXmlElement* xmle, bool m)
 #define STRUCT_INHERIT(TYPE, ...) bool TXB_binding( TYPE* str, TiXmlElement* xmle, bool m)
 #define ATTR(X,HOLDER) TXB_attr_bind( xmle, m, &str-> HOLDER, #HOLDER)

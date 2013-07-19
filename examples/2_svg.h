@@ -19,7 +19,7 @@ STRUCT(baseobject)
 	ATTR(int, width);
 	ATTR(int, height);
 
-	#ifdef TXB_FIRST_PASS
+	#ifdef TXB_PASS_STRUCT
 public:
 	baseobject()
 	{

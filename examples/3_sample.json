@@ -1,0 +1,20 @@
+{
+	"bakery": {
+		"name": "Janes",
+		"cake": [
+			{
+				"name":"New York Cheese",
+				"fruit": [
+					{ "name":"blue berries", "quantity":25, "text":"freshness topping"}
+				]
+			},
+			{
+				"name":"white forest",
+				"fruit": [
+					{ "name":"blue berries", "quantity":10, "illegal":"attribute"},
+					{ "name":"strawberries", "quantity":8}
+				]
+			}
+		]
+	}
+}
