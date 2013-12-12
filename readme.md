@@ -126,7 +126,7 @@ if you dont mind the `STRUCT(bakery)` syntax, the struct definitions can be auto
 ## under the hood
 what the 'schema' is doing is actually defining functions:
 ```C
-STRUCT(bakery)                |   bool TXB_binding( bakery* str, TiXmlElement* xmle, bool m)
+STRUCT(bakery)                |   void TXB_binding( bakery* str, TiXmlElement* xmle, bool m)
 {                             |   {
 	ATTR( string, name);      |        TXB_attr_bind( xmle, m, &str->name, "name");
 	CHILD( cake, cakes);      |        TXB_ele_bind<cake>( xmle, m, &str->cakes, "cake");

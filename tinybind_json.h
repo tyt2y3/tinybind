@@ -10,8 +10,8 @@
 #undef INHERIT
 
 #define TXB_PASS_JSON
-#define STRUCT(TYPE) bool TXB_binding( TYPE* str, cJSON* json, bool m)
-#define STRUCT_INHERIT(TYPE, ...) bool TXB_binding( TYPE* str, cJSON* json, bool m)
+#define STRUCT(TYPE) void TXB_binding( TYPE* str, cJSON* json, bool m)
+#define STRUCT_INHERIT(TYPE, ...) void TXB_binding( TYPE* str, cJSON* json, bool m)
 #define ATTR(X,HOLDER) TXB_attr_bind( json, m, &str-> HOLDER, #HOLDER)
 #define ATTR_NAME(X,HOLDER,NAME) TXB_attr_bind( json, m, &str-> HOLDER, NAME)
 #define ATTR_PRIVATE(X,Y)  

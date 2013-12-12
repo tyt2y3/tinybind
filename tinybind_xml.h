@@ -9,8 +9,8 @@
 #undef INHERIT
 
 #define TXB_PASS_XML
-#define STRUCT(TYPE) bool TXB_binding( TYPE* str, TiXmlElement* xmle, bool m)
-#define STRUCT_INHERIT(TYPE, ...) bool TXB_binding( TYPE* str, TiXmlElement* xmle, bool m)
+#define STRUCT(TYPE) void TXB_binding( TYPE* str, TiXmlElement* xmle, bool m)
+#define STRUCT_INHERIT(TYPE, ...) void TXB_binding( TYPE* str, TiXmlElement* xmle, bool m)
 #define ATTR(X,HOLDER) TXB_attr_bind( xmle, m, &str-> HOLDER, #HOLDER)
 #define ATTR_NAME(X,HOLDER,NAME) TXB_attr_bind( xmle, m, &str-> HOLDER, NAME)
 #define ATTR_PRIVATE(X,Y)  
