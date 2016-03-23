@@ -257,7 +257,7 @@ void TXB_ele_bind( cJSON* json, bool from, std::vector<T>* ANI, const char* tagn
 	if ( from) //from json
 	{
 		cJSON* arr = cJSON_GetObjectItem(json,tagname);
-		if( arr->type == cJSON_Array)
+		if( arr != NULL && arr->type == cJSON_Array)
 		for (int i=0, length=cJSON_GetArraySize(arr); i<length; i++)
 		{
 			cJSON* child=cJSON_GetArrayItem(arr,i);
